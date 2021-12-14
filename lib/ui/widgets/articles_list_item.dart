@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
 import 'package:news_app_2/core/utils.dart';
-import 'package:news_app_2/ui/article_details_screen.dart';
+import 'package:news_app_2/ui/screens/article_details_screen.dart';
 
 class ArticleListItem extends StatelessWidget {
   const ArticleListItem({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class ArticleListItem extends StatelessWidget {
                     style: TextStyle(color: AppColors.textGrey),
                   ),
                   const SizedBox(width: 13),
-                  ReadingTime(readingTimeInMins: 5)
+                  ReadingTimeLabel(readingTimeInMins: 5)
                 ],
               ),
             ),
@@ -91,9 +91,9 @@ class ArticleListItem extends StatelessWidget {
   }
 }
 
-class ReadingTime extends StatelessWidget {
+class ReadingTimeLabel extends StatelessWidget {
   final int readingTimeInMins;
-  const ReadingTime({Key? key, required this.readingTimeInMins})
+  const ReadingTimeLabel({Key? key, required this.readingTimeInMins})
       : super(key: key);
 
   @override
@@ -200,4 +200,9 @@ class CategoryTags extends StatelessWidget {
   }
 }
 
-
+// class Article {
+//   final String title;
+//   final String difficultyLevel;
+//   final int readingTime;
+//   final List<Strings> categories
+// }

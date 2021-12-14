@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_2/core/app_colors.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/ui/category_filter_group.dart';
-import 'package:news_app_2/ui/difficulty_level_filter_group.dart';
+import 'package:news_app_2/ui/widgets/category_filter_group.dart';
+import 'package:news_app_2/ui/widgets/difficulty_level_filter_group.dart';
+import 'package:news_app_2/ui/widgets/reading_time_filter_group.dart';
 
 class ArticleFilterScreen extends StatefulWidget {
   final ArticleFilter? filter;
@@ -19,6 +19,8 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
 
   List<String> _selectedCategories = [];
   List<String> _selectedDifficultyLevels = [];
+  ReadingTimeRange _selectedReadingTimeRange =
+      const ReadingTimeRange(min: 0, max: 30);
 
   ArticleFilter? get _previousFilter => widget.filter;
 
@@ -26,20 +28,28 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
       _previousFilter?.categories ?? [];
   List<String> get _previouslySelectedDifficultyLevels =>
       _previousFilter?.difficultyLevels ?? [];
+  ReadingTimeRange get _previouslySelectedReadingTimeRange =>
+      _previousFilter?.readingTimeRange ??
+      const ReadingTimeRange(min: 0, max: 30);
 
   bool get _hasUpdatedCategories =>
       !listEquals(_previouslySelectedCategories, _selectedCategories);
   bool get _hasUpdatedDifficultyLevels => !listEquals(
       _previouslySelectedDifficultyLevels, _selectedDifficultyLevels);
+  bool get _hasUpdatedReadingTime =>
+      _previouslySelectedReadingTimeRange != _selectedReadingTimeRange;
 
   bool get _hasUpdatedFilter =>
-      _hasUpdatedCategories || _hasUpdatedDifficultyLevels;
+      _hasUpdatedCategories ||
+      _hasUpdatedDifficultyLevels ||
+      _hasUpdatedReadingTime;
 
   @override
   void initState() {
     if (_previousFilter != null) {
       _selectedCategories = List.of(_previousFilter!.categories);
       _selectedDifficultyLevels = List.of(_previousFilter!.difficultyLevels);
+      _selectedReadingTimeRange = _previousFilter!.readingTimeRange;
     }
     super.initState();
   }
@@ -89,9 +99,16 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
-              ReadingTimeFilterGroup(),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
+              ReadingTimeFilterGroup(
+                timeRange: _selectedReadingTimeRange,
+                onReadingTimeChanged: (readingTime) {
+                  setState(() {
+                    _selectedReadingTimeRange = readingTime;
+                  });
+                },
+              ),
+              const SizedBox(height: 35),
               ArticleDifficultyLevelGroup(
                 allLevels: _allDifficultyLevels,
                 selectedLevels: _selectedDifficultyLevels,
@@ -101,7 +118,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 35),
               CategoryFilterGroup(
                   allCategories: _allCategories,
                   selectedCategories: _selectedCategories,
@@ -118,8 +135,11 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
   }
 
   void _applyFilter(BuildContext context) {
-    final filter =
-        ArticleFilter(categories: _selectedCategories, difficultyLevels: []);
+    final filter = ArticleFilter(
+      categories: _selectedCategories,
+      difficultyLevels: _selectedDifficultyLevels,
+      readingTimeRange: _selectedReadingTimeRange,
+    );
     Navigator.of(context).pop(filter);
   }
 
@@ -127,57 +147,13 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
     setState(() {
       _selectedCategories.clear();
       _selectedDifficultyLevels.clear();
+      final timeRange = _previouslySelectedReadingTimeRange;
+      _selectedReadingTimeRange =
+          const ReadingTimeRange(min: 0, max: 30);
     });
   }
 }
 
 extension _Toggle<T> on List<T> {
   void addOrRemoveItem(T item) => contains(item) ? remove(item) : add(item);
-}
-
-class ReadingTimeFilterGroup extends StatefulWidget {
-  const ReadingTimeFilterGroup({Key? key}) : super(key: key);
-
-  @override
-  State<ReadingTimeFilterGroup> createState() => _ReadingTimeFilterGroupState();
-}
-
-class _ReadingTimeFilterGroupState extends State<ReadingTimeFilterGroup> {
-  var rangeValue = RangeValues(0.2, 0.8);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Reading Time",
-          style: TextStyle(fontSize: 15.5),
-        ),
-        const SizedBox(height: 12),
-        SliderTheme(
-          data: SliderThemeData(
-            thumbColor: Colors.white,
-            activeTrackColor: Colors.black,
-            inactiveTrackColor: Colors.black.withOpacity(0.1),
-            overlayColor: AppColors.intermediateDarkYellow.withOpacity(0.2),
-            activeTickMarkColor: Colors.red,
-            inactiveTickMarkColor: Colors.black.withOpacity(0.1),
-            trackHeight: 8
-          ),
-          child: RangeSlider(
-            values: rangeValue,
-            onChanged: (RangeValues value) {
-              setState(() {
-                rangeValue = value;
-              });
-
-              print(rangeValue);
-            },
-            divisions: 10,
-          ),
-        )
-      ],
-    );
-  }
 }

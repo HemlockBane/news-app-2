@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
-import 'package:news_app_2/ui/articles_list_item.dart';
+import 'package:news_app_2/ui/widgets/articles_list_item.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
   const ArticleDetailScreen({Key? key}) : super(key: key);
@@ -11,7 +11,9 @@ class ArticleDetailScreen extends StatelessWidget {
         'https://academy.binance.com/_next/image?url=https%3A%2F%2Fimage.binance.vision%2Fuploads-original%2F4777d1c2d7b14907a480ea1bb86d8f22.png&w=750&q=80';
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("What is NFT Staking and How Does it Work?"),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
@@ -51,10 +53,12 @@ class ArticleDetailScreen extends StatelessWidget {
                 Text("Updated Dec 13, 2021",
                     style: TextStyle(color: AppColors.textGrey)),
                 SizedBox(width: 10),
-                ReadingTime(readingTimeInMins: 5),
+                ReadingTimeLabel(readingTimeInMins: 5),
                 SizedBox(height: 30),
               ],
-            )
+            ),
+            SizedBox(height: 30),
+            Text("")
           ],
         ),
       ),

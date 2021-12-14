@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/ui/article_filter_screen.dart';
-import 'package:news_app_2/ui/articles_list_view.dart';
+import 'package:news_app_2/ui/screens/article_filter_screen.dart';
+import 'package:news_app_2/ui/widgets/articles_list_view.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.92),
       appBar: AppBar(
-        title: const Text("Jerome Academy"),
+        title: const Text("Articles"),
         actions: [
           TextButton(
               child: const Text(
@@ -45,7 +45,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         fullscreenDialog: true);
     final searchFilter = await Navigator.of(context).push(route);
     if (searchFilter != null) {
-      // TODO: Set search filter here
+      _filter = searchFilter;
     }
   }
 }
