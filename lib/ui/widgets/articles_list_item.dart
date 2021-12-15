@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
+import 'package:news_app_2/core/app_routes.dart';
 import 'package:news_app_2/core/utils.dart';
 import 'package:news_app_2/ui/screens/article_details_screen.dart';
 
@@ -18,9 +19,7 @@ class ArticleListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-          return ArticleDetailScreen();
-        }));
+        Navigator.pushNamed(context, AppRoutes.articleDetails);
       },
       child: Container(
         decoration: decoration,

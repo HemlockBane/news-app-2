@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_2/core/app_routes.dart';
 import 'package:news_app_2/core/app_theme.dart';
 import 'package:news_app_2/ui/screens/articles_screen.dart';
 
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme().lightTheme,
       home: const ArticlesScreen(),
+      onGenerateRoute: AppRoutes.generateRouteWithSettings,
+      routes: AppRoutes.buildRouteMap()
     );
   }
 }
