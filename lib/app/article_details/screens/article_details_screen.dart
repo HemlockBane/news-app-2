@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_home/widgets/articles_list_item.dart';
 import 'package:news_app_2/core/app_colors.dart';
-import 'package:news_app_2/ui/widgets/articles_list_item.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
   const ArticleDetailScreen({Key? key}) : super(key: key);

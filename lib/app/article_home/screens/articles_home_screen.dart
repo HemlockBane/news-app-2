@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
 import 'package:news_app_2/core/app_routes.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/ui/screens/article_filter_screen.dart';
-import 'package:news_app_2/ui/widgets/articles_list_view.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);

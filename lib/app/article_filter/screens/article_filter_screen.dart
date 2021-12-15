@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_filter/widgets/category_filter_group.dart';
+import 'package:news_app_2/app/article_filter/widgets/difficulty_level_filter_group.dart';
+import 'package:news_app_2/app/article_filter/widgets/reading_time_filter_group.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/ui/widgets/category_filter_group.dart';
-import 'package:news_app_2/ui/widgets/difficulty_level_filter_group.dart';
-import 'package:news_app_2/ui/widgets/reading_time_filter_group.dart';
 
 class ArticleFilterScreen extends StatefulWidget {
   final ArticleFilter? filter;

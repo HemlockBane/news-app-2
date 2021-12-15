@@ -1,6 +1,4 @@
-import 'package:news_app_2/ui/screens/article_filter_screen.dart';
-import 'package:news_app_2/ui/widgets/articles_list_item.dart';
-import 'package:news_app_2/ui/widgets/reading_time_filter_group.dart';
+import 'package:news_app_2/app/article_filter/widgets/reading_time_filter_group.dart';
 
 class FilterItem {
   final String name;
