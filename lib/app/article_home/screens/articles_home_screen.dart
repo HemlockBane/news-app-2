@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_home/view_models/article_home_view_model.dart';
 import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
 import 'package:news_app_2/core/app_routes.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
+import 'package:provider/provider.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);
@@ -13,6 +15,13 @@ class ArticlesScreen extends StatefulWidget {
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
   ArticleFilter? _filter;
+  late final ArticleHomeViewModel _viewModel;
+
+  @override
+  void initState() {
+    _viewModel = Provider.of<ArticleHomeViewModel>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +41,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         ],
       ),
       body: ArticlesListView(
+        viewModel: _viewModel,
         filter: _filter,
       ),
     );
