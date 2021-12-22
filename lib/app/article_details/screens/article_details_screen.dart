@@ -98,7 +98,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       width: double.infinity,
                       height: 180,
                       child: Image.network(
-                        StringUtil.replaceUrlHost(article?.image ?? ''),
+                        StringUtil.getUrlForRunPlatform(article?.image ?? ''),
                         fit: BoxFit.cover,
                       ),
                     ),

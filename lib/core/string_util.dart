@@ -1,5 +1,5 @@
 class StringUtil {
-  static String replaceUrlHost(String imageUrl) {
+  static String getUrlForRunPlatform(String imageUrl) {
     if (imageUrl.isNotEmpty && imageUrl.contains("localhost")) {
       imageUrl = imageUrl.replaceAll("localhost", "10.0.2.2");
     }

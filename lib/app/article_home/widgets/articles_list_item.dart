@@ -70,7 +70,7 @@ class ArticleListItem extends StatelessWidget {
   
 
   ClipRRect _buildImage({required String imageUrl}) {
-    imageUrl = StringUtil.replaceUrlHost(imageUrl);
+    imageUrl = StringUtil.getUrlForRunPlatform(imageUrl);
 
     log("image url : $imageUrl");
 
