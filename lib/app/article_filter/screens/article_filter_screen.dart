@@ -1,9 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_filter/viewmodels/article_filter_view_model.dart';
 import 'package:news_app_2/app/article_filter/widgets/category_filter_group.dart';
 import 'package:news_app_2/app/article_filter/widgets/difficulty_level_filter_group.dart';
 import 'package:news_app_2/app/article_filter/widgets/reading_time_filter_group.dart';
+import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
+import 'package:news_app_2/core/filter_options.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
+import 'package:news_app_2/core/resource.dart';
+import 'package:provider/provider.dart';
 
 class ArticleFilterScreen extends StatefulWidget {
   final ArticleFilter? filter;
@@ -14,8 +19,10 @@ class ArticleFilterScreen extends StatefulWidget {
 }
 
 class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
-  List<String> _allCategories = ["Altcoin", "Binance", "Bitcoin"];
-  List<String> _allDifficultyLevels = ["Beginner", "Intermediate", "Advanced"];
+  // List<String> _allCategories = [];
+  // List<String> _allDifficultyLevels = [];
+
+  late final ArticleFilterViewModel _filterViewModel;
 
   List<String> _selectedCategories = [];
   List<String> _selectedDifficultyLevels = [];
@@ -51,6 +58,9 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
       _selectedDifficultyLevels = List.of(_previousFilter!.difficultyLevels);
       _selectedReadingTimeRange = _previousFilter!.readingTimeRange;
     }
+    _filterViewModel =
+        Provider.of<ArticleFilterViewModel>(context, listen: false);
+    _filterViewModel.getFilterOptions();
     super.initState();
   }
 
@@ -95,41 +105,75 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              ReadingTimeFilterGroup(
-                timeRange: _selectedReadingTimeRange,
-                onReadingTimeChanged: (readingTime) {
-                  setState(() {
-                    _selectedReadingTimeRange = readingTime;
-                  });
-                },
-              ),
-              const SizedBox(height: 35),
-              ArticleDifficultyLevelGroup(
-                allLevels: _allDifficultyLevels,
-                selectedLevels: _selectedDifficultyLevels,
-                onLevelTap: (FilterItem item) {
-                  setState(() {
-                    _selectedDifficultyLevels.addOrRemoveItem(item.name);
-                  });
-                },
-              ),
-              const SizedBox(height: 35),
-              CategoryFilterGroup(
-                  allCategories: _allCategories,
-                  selectedCategories: _selectedCategories,
-                  onCategoryTap: (FilterItem item) {
-                    setState(() {
-                      _selectedCategories.addOrRemoveItem(item.name);
-                    });
-                  }),
-            ],
-          ),
-        ),
+        child: StreamBuilder(
+            stream: _filterViewModel.filterOptionsStream,
+            builder:
+                (context, AsyncSnapshot<Resource<FilterOptions>> snapshot) {
+              if (!snapshot.hasData || snapshot.data is Loading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                );
+              }
+
+              if (snapshot.data is Error) {
+                return ErrorStateWidget(
+                  errorMessage:
+                      "We could not fetch the filter options. Please check your internet connection and try again",
+                  onError: () {
+                    _filterViewModel.getFilterOptions();
+                  },
+                );
+              }
+
+              if (snapshot.data?.data == null) {
+                return ErrorStateWidget(
+                  errorMessage:
+                      "We could not fetch the filter options. Please contact the support team",
+                  onError: () {
+                    _filterViewModel.getFilterOptions();
+                  },
+                );
+              }
+
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 20),
+                    ReadingTimeFilterGroup(
+                      timeRange: _selectedReadingTimeRange,
+                      onReadingTimeChanged: (readingTime) {
+                        setState(() {
+                          _selectedReadingTimeRange = readingTime;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 35),
+                    ArticleDifficultyLevelGroup(
+                      allLevels: snapshot.data?.data?.difficultyLevels ?? [],
+                      selectedLevels: _selectedDifficultyLevels,
+                      onLevelTap: (FilterItem item) {
+                        setState(() {
+                          _selectedDifficultyLevels.addOrRemoveItem(item.name);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 35),
+                    CategoryFilterGroup(
+                        allCategories: snapshot.data?.data?.categories ?? [],
+                        selectedCategories: _selectedCategories,
+                        onCategoryTap: (FilterItem item) {
+                          setState(() {
+                            _selectedCategories.addOrRemoveItem(item.name);
+                          });
+                        }),
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }
@@ -148,8 +192,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
       _selectedCategories.clear();
       _selectedDifficultyLevels.clear();
       final timeRange = _previouslySelectedReadingTimeRange;
-      _selectedReadingTimeRange =
-          const ReadingTimeRange(min: 0, max: 30);
+      _selectedReadingTimeRange = const ReadingTimeRange(min: 0, max: 30);
     });
   }
 }

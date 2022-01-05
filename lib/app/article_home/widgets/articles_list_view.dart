@@ -141,19 +141,11 @@ class _ArticlesListViewState extends State<ArticlesListView> {
                   );
                 },
                 firstPageErrorIndicatorBuilder: (context) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Oops! Could not fetch articles..."),
-                      const SizedBox(height: 8),
-                      TextButton(
-                        child: const Text("Retry",
-                            style: TextStyle(color: Colors.black)),
-                        onPressed: () {
-                          _pagingController.refresh();
-                        },
-                      )
-                    ],
+                  child: ErrorStateWidget(
+                    errorMessage: "Oops! Could not fetch articles...",
+                    onError: () {
+                      _pagingController.retryLastFailedRequest();
+                    },
                   ),
                 ),
               ),
@@ -163,6 +155,35 @@ class _ArticlesListViewState extends State<ArticlesListView> {
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class ErrorStateWidget extends StatelessWidget {
+  const ErrorStateWidget({
+    Key? key,
+    required this.onError,
+    this.errorMessage =
+        "Oops! Something went wrong. Please check your internet connection and try again",
+  }) : super(key: key);
+
+  final VoidCallback onError;
+  final String errorMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(errorMessage),
+        const SizedBox(height: 8),
+        TextButton(
+          child: const Text("Retry", style: TextStyle(color: Colors.black)),
+          onPressed: () {
+            onError.call();
+          },
+        )
       ],
     );
   }

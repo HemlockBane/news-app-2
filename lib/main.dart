@@ -6,13 +6,16 @@ import 'package:news_app_2/core/app_theme.dart';
 import 'package:news_app_2/core/service_module.dart';
 import 'package:provider/provider.dart';
 
+import 'app/article_filter/viewmodels/article_filter_view_model.dart';
+
 void main() async {
   ServiceModule.inject();
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ArticleHomeViewModel())
+        ChangeNotifierProvider(create: (_) => ArticleHomeViewModel()),
+        ChangeNotifierProvider(create: (_) => ArticleFilterViewModel()),
       ],
       child: const MyApp(),
     ),
