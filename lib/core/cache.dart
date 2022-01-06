@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:news_app_2/core/data/category.dart';
+
 class Cache {
   static final Cache _instance = Cache._internal();
 
@@ -7,7 +9,7 @@ class Cache {
 
   Cache._internal();
 
-  List<String> _categories = [];
+  List<Category> _categories = [];
   List<String> _difficultyLevels = [];
 
   bool isEmpty() {
@@ -19,7 +21,7 @@ class Cache {
     log("cached difficulty levels: ${_difficultyLevels.toString()}");
   }
 
-  Future<void> saveCategories(List<String> categories) {
+  Future<void> saveCategories(List<Category> categories) {
     return Future.microtask(() => _categories = categories);
   }
 
@@ -27,7 +29,7 @@ class Cache {
     return Future.microtask(() => _difficultyLevels = difficultyLevels);
   }
 
-  Future<List<String>?> getCategories() => Future.microtask(() => _categories);
+  Future<List<Category>?> getCategories() => Future.microtask(() => _categories);
   Future<List<String>?> getDifficultyLevels() =>
       Future.microtask(() => _difficultyLevels);
 }

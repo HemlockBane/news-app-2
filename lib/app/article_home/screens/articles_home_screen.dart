@@ -53,8 +53,10 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       AppRoutes.articleFilter,
       arguments: _filter,
     );
-    if (searchFilter != null) {
-      _filter = searchFilter;
-    }
+    setState(() {
+      if (searchFilter != null) {
+        _filter = searchFilter;
+      }
+    });
   }
 }

@@ -8,6 +8,7 @@ import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
 import 'package:news_app_2/core/filter_options.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
 import 'package:news_app_2/core/resource.dart';
+import 'package:news_app_2/core/widgets/state_indicators.dart';
 import 'package:provider/provider.dart';
 
 class ArticleFilterScreen extends StatefulWidget {
@@ -19,20 +20,18 @@ class ArticleFilterScreen extends StatefulWidget {
 }
 
 class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
-  // List<String> _allCategories = [];
-  // List<String> _allDifficultyLevels = [];
 
   late final ArticleFilterViewModel _filterViewModel;
 
-  List<String> _selectedCategories = [];
+  List<int> _selectedCategoryIds = [];
   List<String> _selectedDifficultyLevels = [];
   ReadingTimeRange _selectedReadingTimeRange =
       const ReadingTimeRange(min: 0, max: 30);
 
   ArticleFilter? get _previousFilter => widget.filter;
 
-  List<String> get _previouslySelectedCategories =>
-      _previousFilter?.categories ?? [];
+  List<int> get _previouslySelectedCategoryIds =>
+      _previousFilter?.categoryIds ?? [];
   List<String> get _previouslySelectedDifficultyLevels =>
       _previousFilter?.difficultyLevels ?? [];
   ReadingTimeRange get _previouslySelectedReadingTimeRange =>
@@ -40,7 +39,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
       const ReadingTimeRange(min: 0, max: 30);
 
   bool get _hasUpdatedCategories =>
-      !listEquals(_previouslySelectedCategories, _selectedCategories);
+      !listEquals(_previouslySelectedCategoryIds, _selectedCategoryIds);
   bool get _hasUpdatedDifficultyLevels => !listEquals(
       _previouslySelectedDifficultyLevels, _selectedDifficultyLevels);
   bool get _hasUpdatedReadingTime =>
@@ -54,7 +53,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
   @override
   void initState() {
     if (_previousFilter != null) {
-      _selectedCategories = List.of(_previousFilter!.categories);
+      _selectedCategoryIds = List.of(_previousFilter!.categoryIds);
       _selectedDifficultyLevels = List.of(_previousFilter!.difficultyLevels);
       _selectedReadingTimeRange = _previousFilter!.readingTimeRange;
     }
@@ -118,20 +117,20 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
               }
 
               if (snapshot.data is Error) {
-                return ErrorStateWidget(
-                  errorMessage:
+                return PageBanner(
+                  message:
                       "We could not fetch the filter options. Please check your internet connection and try again",
-                  onError: () {
+                  onRetry: () {
                     _filterViewModel.getFilterOptions();
                   },
                 );
               }
 
               if (snapshot.data?.data == null) {
-                return ErrorStateWidget(
-                  errorMessage:
+                return PageBanner(
+                  message:
                       "We could not fetch the filter options. Please contact the support team",
-                  onError: () {
+                  onRetry: () {
                     _filterViewModel.getFilterOptions();
                   },
                 );
@@ -164,10 +163,10 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
                     const SizedBox(height: 35),
                     CategoryFilterGroup(
                         allCategories: snapshot.data?.data?.categories ?? [],
-                        selectedCategories: _selectedCategories,
+                        selectedCategoryIds: _selectedCategoryIds,
                         onCategoryTap: (FilterItem item) {
                           setState(() {
-                            _selectedCategories.addOrRemoveItem(item.name);
+                            _selectedCategoryIds.addOrRemoveItem(item.id!);
                           });
                         }),
                   ],
@@ -180,7 +179,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
 
   void _applyFilter(BuildContext context) {
     final filter = ArticleFilter(
-      categories: _selectedCategories,
+      categoryIds: _selectedCategoryIds,
       difficultyLevels: _selectedDifficultyLevels,
       readingTimeRange: _selectedReadingTimeRange,
     );
@@ -189,7 +188,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
 
   void _clearFilter() {
     setState(() {
-      _selectedCategories.clear();
+      _selectedCategoryIds.clear();
       _selectedDifficultyLevels.clear();
       final timeRange = _previouslySelectedReadingTimeRange;
       _selectedReadingTimeRange = const ReadingTimeRange(min: 0, max: 30);

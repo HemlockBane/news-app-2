@@ -3,17 +3,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
+import 'package:news_app_2/core/data/category.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
 
 class CategoryFilterGroup extends StatelessWidget {
-  final List<String> allCategories;
-  final List<String> selectedCategories;
+  final List<Category> allCategories;
+  final List<int> selectedCategoryIds;
   final ValueChanged<FilterItem> onCategoryTap;
 
   const CategoryFilterGroup(
       {Key? key,
       required this.allCategories,
-      required this.selectedCategories,
+      required this.selectedCategoryIds,
       required this.onCategoryTap})
       : super(key: key);
 
@@ -21,8 +22,9 @@ class CategoryFilterGroup extends StatelessWidget {
     return allCategories
         .map(
           (category) => FilterItem(
-            name: category,
-            isSelected: selectedCategories.contains(category),
+            id: category.id,
+            name: category.name ?? "",
+            isSelected: selectedCategoryIds.contains(category.id),
           ),
         )
         .toList();
