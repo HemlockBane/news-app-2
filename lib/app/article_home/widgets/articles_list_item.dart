@@ -1,10 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
-import 'package:news_app_2/core/utils.dart';
-import 'package:news_app_2/ui/article_details_screen.dart';
+import 'package:news_app_2/core/app_routes.dart';
+import 'package:news_app_2/core/data/article_preview.dart';
+import 'package:news_app_2/core/color_utils.dart';
+import 'package:news_app_2/core/date_utils.dart';
+import 'package:news_app_2/core/string_util.dart';
 
 class ArticleListItem extends StatelessWidget {
-  const ArticleListItem({Key? key}) : super(key: key);
+  const ArticleListItem({Key? key, required this.preview}) : super(key: key);
+
+  final ArticlePreview preview;
 
   @override
   Widget build(BuildContext context) {
@@ -18,39 +25,39 @@ class ArticleListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-          return ArticleDetailScreen();
-        }));
+        Navigator.pushNamed(context, AppRoutes.articleDetails,
+            arguments: preview.id);
       },
       child: Container(
         decoration: decoration,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
-                _buildImage(dummyImagePath),
-                const CategoryTags(
-                  articleCategories: ["Tutorials", "Metaverse", "Use Cases"],
+                _buildImage(imageUrl: preview.image ?? ''),
+                CategoryTags(
+                  articleCategories: preview.categories ?? [],
                 )
               ],
             ),
             const SizedBox(height: 10),
-            _buildTitle(),
+            _buildTitle(title: preview.title ?? ""),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
               child: Row(
                 children: [
-                  const DifficultyPill(
-                    difficultyLevel: "Beginner",
+                  DifficultyPill(
+                    difficultyLevel: preview.difficultyLevel ?? "",
                   ),
                   const SizedBox(width: 13),
-                  const Text(
-                    "Dec 7, 2021",
-                    style: TextStyle(color: AppColors.textGrey),
+                  Text(
+                    DateUtil.getFormattedDate(preview.date),
+                    style: const TextStyle(color: AppColors.textGrey),
                   ),
                   const SizedBox(width: 13),
-                  ReadingTime(readingTimeInMins: 5)
+                  ReadingTimeLabel(readingTimeInMins: preview.readTime ?? 0)
                 ],
               ),
             ),
@@ -60,29 +67,36 @@ class ArticleListItem extends StatelessWidget {
       ),
     );
   }
+  
 
-  ClipRRect _buildImage(String dummyImagePath) {
+  ClipRRect _buildImage({required String imageUrl}) {
+    imageUrl = StringUtil.getUrlForRunPlatform(imageUrl);
+
+    log("image url : $imageUrl");
+
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: 180,
         child: Image.network(
-          dummyImagePath,
+          imageUrl,
           fit: BoxFit.cover,
         ),
       ),
     );
   }
 
-  Padding _buildTitle() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+  
+
+  Padding _buildTitle({required String title}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Text(
-        "4 Blockchain and Crypto Projects in the Metaverse",
+        title,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 19,
           fontWeight: FontWeight.w600,
         ),
@@ -91,9 +105,10 @@ class ArticleListItem extends StatelessWidget {
   }
 }
 
-class ReadingTime extends StatelessWidget {
+class ReadingTimeLabel extends StatelessWidget {
   final int readingTimeInMins;
-  const ReadingTime({Key? key, required this.readingTimeInMins})
+
+  const ReadingTimeLabel({Key? key, required this.readingTimeInMins})
       : super(key: key);
 
   @override
@@ -200,4 +215,21 @@ class CategoryTags extends StatelessWidget {
   }
 }
 
+// class ArticlePreview {
+// final int id;
+//   final String title;
+//   final String difficultyLevel;
+//   final int readingTime;
+//   final List<Strings> categories
+// final DateTime dateCreated
+// }
 
+// class Article {
+// final int id;
+//   final String title;
+//   final String content;
+//   final String difficultyLevel;
+//   final int readingTime;
+//   final List<Strings> categories
+// final DateTime dateCreated
+// }

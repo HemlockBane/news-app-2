@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_2/app/article_home/view_models/article_home_view_model.dart';
+import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
+import 'package:news_app_2/core/app_routes.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/ui/article_filter_screen.dart';
-import 'package:news_app_2/ui/articles_list_view.dart';
+import 'package:provider/provider.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);
@@ -13,13 +15,20 @@ class ArticlesScreen extends StatefulWidget {
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
   ArticleFilter? _filter;
+  late final ArticleHomeViewModel _viewModel;
+
+  @override
+  void initState() {
+    _viewModel = Provider.of<ArticleHomeViewModel>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.92),
       appBar: AppBar(
-        title: const Text("Jerome Academy"),
+        title: const Text("Articles"),
         actions: [
           TextButton(
               child: const Text(
@@ -32,20 +41,20 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         ],
       ),
       body: ArticlesListView(
+        viewModel: _viewModel,
         filter: _filter,
       ),
     );
   }
 
   Future _navigateToFilterScreen(BuildContext context) async {
-    final route = MaterialPageRoute(
-        builder: (_) => ArticleFilterScreen(
-              filter: _filter,
-            ),
-        fullscreenDialog: true);
-    final searchFilter = await Navigator.of(context).push(route);
+    final searchFilter = await Navigator.pushNamed<ArticleFilter>(
+      context,
+      AppRoutes.articleFilter,
+      arguments: _filter,
+    );
     if (searchFilter != null) {
-      // TODO: Set search filter here
+      _filter = searchFilter;
     }
   }
 }
