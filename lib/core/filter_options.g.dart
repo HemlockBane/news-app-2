@@ -9,7 +9,7 @@ part of 'filter_options.dart';
 FilterOptions _$FilterOptionsFromJson(Map<String, dynamic> json) =>
     FilterOptions(
       categories: (json['categories'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => Category.fromJson(e as Object))
           .toList(),
       difficultyLevels: (json['difficultyLevels'] as List<dynamic>?)
           ?.map((e) => e as String)

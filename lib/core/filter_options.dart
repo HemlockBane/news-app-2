@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:news_app_2/core/data/category.dart';
 
 part 'filter_options.g.dart';
 
@@ -9,7 +10,7 @@ class FilterOptions {
     required this.difficultyLevels,
   });
 
-  List<String>? categories;
+  List<Category>? categories;
   List<String>? difficultyLevels;
 
 

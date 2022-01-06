@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -6,9 +7,9 @@ import 'package:news_app_2/app/article_home/view_models/article_home_view_model.
 import 'package:news_app_2/app/article_home/widgets/articles_list_item.dart';
 import 'package:news_app_2/core/article_service_delegate.dart';
 import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/data/article_preview_body.dart';
 import 'package:news_app_2/core/models/article_filter.dart';
 import 'package:news_app_2/core/resource.dart';
+import 'package:news_app_2/core/widgets/state_indicators.dart';
 
 class ArticlesListView extends StatefulWidget {
   final ArticleFilter? filter;
@@ -31,8 +32,8 @@ class _ArticlesListViewState extends State<ArticlesListView> {
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
-      final queries = {"page": pageKey};
-      widget.viewModel.getArticlePreview(queries);
+      Map<String, dynamic> body = _getFilterBody();
+      widget.viewModel.getArticlePreview(pageKey, body);
     });
 
     previewSubscription = widget.viewModel.articlePreviewStream.listen((event) {
@@ -41,36 +42,11 @@ class _ArticlesListViewState extends State<ArticlesListView> {
     super.initState();
   }
 
-  void _onPageFetched(Resource<ArticlePage> event) {
-    if (event is Success && event.data != null) {
-      final newPage = event.data!;
-
-      final newItems = newPage.response.articlePreviewBody.previews!;
-
-      final previouslyFetchedItemsCount =
-          _pagingController.itemList?.length ?? 0;
-
-      final shouldFetchMore = newPage.response.articlePreviewBody
-          .shouldFetchMore(previouslyFetchedItemsCount);
-
-      if (shouldFetchMore) {
-        final nextPageKey = newPage.page + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
-      } else {
-        _pagingController.appendLastPage(newItems);
-      }
-    }
-
-    if (event is Error) {
-      _pagingController.error = event;
-    }
-  }
-
   @override
   void didUpdateWidget(covariant ArticlesListView oldWidget) {
     if (oldWidget.filter != widget.filter) {
-      // TODO: Fetch articles
-
+      log("filter updated: ${widget.filter}");
+      _pagingController.refresh();
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -127,27 +103,24 @@ class _ArticlesListViewState extends State<ArticlesListView> {
                 itemBuilder: (context, preview, index) =>
                     ArticleListItem(preview: preview),
                 newPageProgressIndicatorBuilder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  );
+                  return const PageLoadingIndicator();
                 },
                 firstPageProgressIndicatorBuilder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  );
+                  return const PageLoadingIndicator();
                 },
                 firstPageErrorIndicatorBuilder: (context) => Center(
-                  child: ErrorStateWidget(
-                    errorMessage: "Oops! Could not fetch articles...",
-                    onError: () {
+                  child: ErrorPageBanner(
+                    error: _pagingController.error,
+                    onRetry: () {
                       _pagingController.retryLastFailedRequest();
                     },
                   ),
                 ),
+                noItemsFoundIndicatorBuilder: (context) {
+                  return EmptyListPageBanner(onRetry: () {
+                    _pagingController.retryLastFailedRequest();
+                  });
+                },
               ),
               separatorBuilder: (ctx, idx) {
                 return const SizedBox(height: 10);
@@ -156,6 +129,70 @@ class _ArticlesListViewState extends State<ArticlesListView> {
           ),
         ),
       ],
+    );
+  }
+
+  Map<String, dynamic> _getFilterBody() {
+    final filter = widget.filter;
+    var body = <String, dynamic>{};
+
+    if (filter == null) {
+      body["read_time"] = [1, 60];
+    } else {
+      final readTimeRange = filter.readingTimeRange;
+      final minReadTime = readTimeRange.min == 0 ? 1 : readTimeRange.min;
+      final maxReadTime = readTimeRange.max >= 30 ? 60 : readTimeRange.max;
+
+      body["read_time"] = [minReadTime, maxReadTime];
+
+      if (filter.categoryIds.isNotEmpty) {
+        body["category"] = filter.categoryIds;
+      }
+
+      if (filter.difficultyLevels.isNotEmpty) {
+        body["difficulty_level"] = filter.difficultyLevels;
+      }
+    }
+    return body;
+  }
+
+  void _onPageFetched(Resource<ArticlePage> event) {
+    if (event is Success && event.data != null) {
+      final newPage = event.data!;
+
+      final newItems = newPage.response.articlePreviewBody.previews!;
+
+      final previouslyFetchedItemsCount =
+          _pagingController.itemList?.length ?? 0;
+
+      final shouldFetchMore = newPage.response.articlePreviewBody
+          .shouldFetchMore(previouslyFetchedItemsCount);
+
+      if (shouldFetchMore) {
+        final nextPageKey = newPage.page + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      } else {
+        _pagingController.appendLastPage(newItems);
+      }
+    }
+
+    if (event is Error) {
+      _pagingController.error = event;
+    }
+  }
+}
+
+class PageLoadingIndicator extends StatelessWidget {
+  const PageLoadingIndicator({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Colors.black,
+      ),
     );
   }
 }

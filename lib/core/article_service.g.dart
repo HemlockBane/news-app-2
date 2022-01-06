@@ -16,15 +16,15 @@ class _ArticleService implements ArticleService {
   String? baseUrl;
 
   @override
-  Future<ArticlesPreviewResponse> getAllArticles(queries) async {
+  Future<ArticlesPreviewResponse> getAllArticles(page, body) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(queries);
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ArticlesPreviewResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
+            Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/articles_preview',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));

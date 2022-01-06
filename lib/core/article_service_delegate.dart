@@ -19,12 +19,10 @@ class ArticleServiceDelegate {
     _service = service;
   }
 
-  Future<Resource<ArticlePage>> getArticlePreview(
-      Map<String, dynamic> queries) async {
+  Future<Resource<ArticlePage>> getArticlePreview(int page,
+      Map<String, dynamic> body) async {
     try {
-      final page = queries["page"];
-
-      final response = await _service.getAllArticles(queries);
+      final response = await _service.getAllArticles(page, body);
 
       if (page == 1) {
         log("cache before fetch:");

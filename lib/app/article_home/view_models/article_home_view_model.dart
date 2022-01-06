@@ -19,10 +19,10 @@ class ArticleHomeViewModel with ChangeNotifier {
       : _articleServiceDelegate =
             articleServiceDelegate ?? GetIt.I<ArticleServiceDelegate>();
 
-  void getArticlePreview(Map<String, dynamic> queries) async {
+  void getArticlePreview(int page, Map<String, dynamic> body) async {
     _articlePreviewController.sink.add(Resource.loading(null));
 
-    final res = await _articleServiceDelegate.getArticlePreview(queries);
+    final res = await _articleServiceDelegate.getArticlePreview(page, body);
     _articlePreviewController.sink.add(res);
   }
 

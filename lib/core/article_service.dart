@@ -16,17 +16,13 @@ const localHost = "http://10.0.2.2/newsapp/wp-json/api";
 abstract class ArticleService {
   factory ArticleService(Dio dio) = _ArticleService;
 
-  @GET("/articles_preview")
+  @POST("/articles_preview")
   Future<ArticlesPreviewResponse> getAllArticles(
-      @Queries() Map<String, dynamic> queries);
+      @Query("page") int page, @Body() Map<String, dynamic> body);
 
   @GET("/article_by_id")
   Future<ArticleResponse> getArticleById(@Query("id") int id);
 
   @GET("/article_filter_options")
   Future<FilterOptionsResponse> getArticleFilterOptions();
-
 }
-
-
-
