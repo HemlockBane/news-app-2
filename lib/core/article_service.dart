@@ -10,7 +10,19 @@ import 'data/articles_preview_response.dart';
 
 part 'article_service.g.dart';
 
-const localHost = "http://10.0.2.2/newsapp/wp-json/api";
+class UrlConfig {
+  static const _device = "device";
+  static const _emulator = "emulator";
+
+  static const _emulatorIPV4 = "10.0.2.2";
+  static const _physicalDeviceIPV4 = "192.168.43.116";
+
+  static const _config = _device;
+  static const String ipv4 =
+      (_config == _emulator) ? _emulatorIPV4 : _physicalDeviceIPV4;
+}
+
+const localHost = "http://${UrlConfig.ipv4}/newsapp/wp-json/api";
 
 @RestApi(baseUrl: "$localHost/")
 abstract class ArticleService {

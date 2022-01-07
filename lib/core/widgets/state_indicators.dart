@@ -100,7 +100,7 @@ class PageBanner extends StatelessWidget {
           visible: title != null,
           child: Column(
             children: [
-              Text(title!, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
+              Text(title?? "", style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
               const SizedBox(height: 8),
             ],
           ),
