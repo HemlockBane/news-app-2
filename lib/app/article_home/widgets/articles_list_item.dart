@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/core/app_colors.dart';
 import 'package:news_app_2/core/app_routes.dart';
@@ -7,6 +8,7 @@ import 'package:news_app_2/core/data/article_preview.dart';
 import 'package:news_app_2/core/color_utils.dart';
 import 'package:news_app_2/core/date_utils.dart';
 import 'package:news_app_2/core/string_util.dart';
+import 'package:news_app_2/core/widgets/state_indicators.dart';
 
 class ArticleListItem extends StatelessWidget {
   const ArticleListItem({Key? key, required this.preview}) : super(key: key);
@@ -19,9 +21,6 @@ class ArticleListItem extends StatelessWidget {
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
     );
-
-    const dummyImagePath =
-        'https://academy.binance.com/_next/image?url=https%3A%2F%2Fimage.binance.vision%2Fuploads-original%2F4777d1c2d7b14907a480ea1bb86d8f22.png&w=750&q=80';
 
     return GestureDetector(
       onTap: () {
@@ -67,29 +66,28 @@ class ArticleListItem extends StatelessWidget {
       ),
     );
   }
-  
 
-  ClipRRect _buildImage({required String imageUrl}) {
+  Widget _buildImage({required String imageUrl}) {
     imageUrl = StringUtil.getUrlForRunPlatform(imageUrl);
 
-    log("image url : $imageUrl");
+    // log("image url : $imageUrl");
 
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: SizedBox(
         width: double.infinity,
         height: 180,
-        child: Image.network(
-          imageUrl,
+        child: CachedNetworkImage(
+          imageUrl: StringUtil.getUrlForRunPlatform(imageUrl),
+          placeholder: (context, url) => const PageLoadingIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
           fit: BoxFit.cover,
         ),
       ),
     );
   }
 
-  
-
-  Padding _buildTitle({required String title}) {
+  Widget _buildTitle({required String title}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Text(

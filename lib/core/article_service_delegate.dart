@@ -22,6 +22,7 @@ class ArticleServiceDelegate {
   Future<Resource<ArticlePage>> getArticlePreview(int page,
       Map<String, dynamic> body) async {
     try {
+      log(body.toString(), name: "filter body");
       final response = await _service.getAllArticles(page, body);
 
       if (page == 1) {

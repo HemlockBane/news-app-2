@@ -11,18 +11,26 @@ import 'data/articles_preview_response.dart';
 part 'article_service.g.dart';
 
 class UrlConfig {
-  static const _device = "device";
+  static const _phone = "phone";
   static const _emulator = "emulator";
+  static const _devDeviceConfig = _phone;
 
-  static const _emulatorIPV4 = "10.0.2.2";
-  static const _physicalDeviceIPV4 = "192.168.43.116";
+  static const _devHostForEmulator = "10.0.2.2/wordpress";
+  static const _devHostForPhone = "192.168.43.116/wordpress";
+  static const _liveHost = "192.248.153.131";
 
-  static const _config = _device;
-  static const String ipv4 =
-      (_config == _emulator) ? _emulatorIPV4 : _physicalDeviceIPV4;
+  static const _live = "live";
+  static const _dev = "dev";
+  static const _serverConfig = _live;
+
+  static const String host = _serverConfig == _live
+      ? _liveHost
+      : (_devDeviceConfig == _emulator)
+          ? _devHostForEmulator
+          : _devHostForPhone;
 }
 
-const localHost = "http://${UrlConfig.ipv4}/newsapp/wp-json/api";
+const localHost = "http://${UrlConfig.host}/wp-json/api";
 
 @RestApi(baseUrl: "$localHost/")
 abstract class ArticleService {
@@ -37,4 +45,27 @@ abstract class ArticleService {
 
   @GET("/article_filter_options")
   Future<FilterOptionsResponse> getArticleFilterOptions();
+}
+
+
+
+class MockArticleService implements ArticleService{
+  @override
+  Future<ArticlesPreviewResponse> getAllArticles(int page, Map<String, dynamic> body) {
+    // TODO: implement getAllArticles
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ArticleResponse> getArticleById(int id) {
+    // TODO: implement getArticleById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<FilterOptionsResponse> getArticleFilterOptions() {
+    // TODO: implement getArticleFilterOptions
+    throw UnimplementedError();
+  }
+
 }

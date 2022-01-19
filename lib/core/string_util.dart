@@ -3,7 +3,7 @@ import 'package:news_app_2/core/article_service.dart';
 class StringUtil {
   static String getUrlForRunPlatform(String imageUrl) {
     if (imageUrl.isNotEmpty && imageUrl.contains("localhost")) {
-      imageUrl = imageUrl.replaceAll("localhost", UrlConfig.ipv4);
+      imageUrl = imageUrl.replaceAll("localhost", UrlConfig.host);
     }
     return imageUrl;
   }

@@ -8,7 +8,7 @@ part of 'article_service.dart';
 
 class _ArticleService implements ArticleService {
   _ArticleService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://192.168.43.116/newsapp/wp-json/api/';
+    baseUrl ??= 'http://192.248.153.131/wp-json/api/';
   }
 
   final Dio _dio;

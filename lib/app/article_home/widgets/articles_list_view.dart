@@ -33,6 +33,7 @@ class _ArticlesListViewState extends State<ArticlesListView> {
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
       Map<String, dynamic> body = _getFilterBody();
+
       widget.viewModel.getArticlePreview(pageKey, body);
     });
 
