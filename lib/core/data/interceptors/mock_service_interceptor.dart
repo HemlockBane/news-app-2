@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:news_app_2/core/data/article.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
 import 'package:collection/collection.dart';
+import 'package:news_app_2/core/data/models/article.dart';
+import 'package:news_app_2/core/data/models/article_preview.dart';
 
 class MockArticlePreviewInterceptor extends Interceptor {
   final _previewPath = "/wp-json/api/articles_preview";

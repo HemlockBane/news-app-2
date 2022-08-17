@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:news_app_2/core/article_service.dart';
-import 'package:news_app_2/core/article_service_delegate.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/interceptors/logging_interceptor.dart';
-import 'package:news_app_2/core/interceptors/mock_service_interceptor.dart';
+import 'package:news_app_2/core/data/data_sources/article_service.dart';
+import 'package:news_app_2/core/data/delegates/article_service_delegate.dart';
+import 'package:news_app_2/core/data/interceptors/logging_interceptor.dart';
+import 'package:news_app_2/core/data/interceptors/mock_service_interceptor.dart';
 
 class ServiceModule {
   static Dio getConfiguredApiClient() {

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app_2/app/article_details/screens/article_details_screen.dart';
 import 'package:news_app_2/app/article_details/viewmodels/article_details_view_model.dart';
 import 'package:news_app_2/app/article_filter/screens/article_filter_screen.dart';
-import 'package:news_app_2/core/data/article.dart';
-import 'package:news_app_2/core/models/article_filter.dart';
+import 'package:news_app_2/core/data/models/article_filter.dart';
 import 'package:provider/provider.dart';
 
 class AppRoutes {

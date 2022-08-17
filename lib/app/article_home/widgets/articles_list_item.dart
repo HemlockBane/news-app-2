@@ -2,13 +2,16 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_2/core/app_colors.dart';
 import 'package:news_app_2/core/app_routes.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/color_utils.dart';
-import 'package:news_app_2/core/date_utils.dart';
-import 'package:news_app_2/core/string_util.dart';
-import 'package:news_app_2/core/widgets/state_indicators.dart';
+
+import 'package:news_app_2/core/data/models/article_preview.dart';
+import 'package:news_app_2/core/ui/color_utils.dart';
+import 'package:news_app_2/core/ui/styles/app_colors.dart';
+import 'package:news_app_2/core/ui/widgets/state_indicators.dart';
+import 'package:news_app_2/core/utils/date_utils.dart';
+
+import 'package:news_app_2/core/utils/string_util.dart';
+
 
 class ArticleListItem extends StatelessWidget {
   const ArticleListItem({Key? key, required this.preview}) : super(key: key);

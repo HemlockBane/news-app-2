@@ -1,4 +1,4 @@
-import 'package:news_app_2/core/article_service.dart';
+import 'package:news_app_2/core/data/data_sources/article_service.dart';
 
 class StringUtil {
   static String getUrlForRunPlatform(String imageUrl) {

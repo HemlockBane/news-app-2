@@ -4,12 +4,12 @@ import 'package:news_app_2/app/article_filter/viewmodels/article_filter_view_mod
 import 'package:news_app_2/app/article_filter/widgets/category_filter_group.dart';
 import 'package:news_app_2/app/article_filter/widgets/difficulty_level_filter_group.dart';
 import 'package:news_app_2/app/article_filter/widgets/reading_time_filter_group.dart';
-import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
-import 'package:news_app_2/core/filter_options.dart';
-import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/core/resource.dart';
-import 'package:news_app_2/core/widgets/state_indicators.dart';
+import 'package:news_app_2/core/data/models/article_filter.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
+import 'package:news_app_2/core/ui/widgets/state_indicators.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/data/models/filter_options.dart';
 
 class ArticleFilterScreen extends StatefulWidget {
   final ArticleFilter? filter;

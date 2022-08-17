@@ -2,9 +2,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:news_app_2/core/app_colors.dart';
-import 'package:news_app_2/core/data/category.dart';
-import 'package:news_app_2/core/models/article_filter.dart';
+import 'package:news_app_2/core/data/models/article_filter.dart';
+import 'package:news_app_2/core/data/models/category.dart';
+import 'package:news_app_2/core/ui/styles/app_colors.dart';
 
 class CategoryFilterGroup extends StatelessWidget {
   final List<Category> allCategories;

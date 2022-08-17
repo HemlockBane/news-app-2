@@ -1,7 +1,7 @@
 
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:news_app_2/core/data/article_preview_body.dart';
+import 'package:news_app_2/core/data/models/article_preview_body.dart';
 
 
 part 'articles_preview_response.g.dart';

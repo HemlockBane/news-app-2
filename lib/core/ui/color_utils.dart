@@ -1,5 +1,5 @@
   import 'package:flutter/material.dart';
-import 'package:news_app_2/core/app_colors.dart';
+import 'package:news_app_2/core/ui/styles/app_colors.dart';
 
 Color getColor(String level) {
     switch (level.toLowerCase()) {

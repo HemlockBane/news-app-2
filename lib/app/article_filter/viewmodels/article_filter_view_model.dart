@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:news_app_2/core/article_service_delegate.dart';
-import 'package:news_app_2/core/filter_options.dart';
-import 'package:news_app_2/core/resource.dart';
+import 'package:news_app_2/core/data/delegates/article_service_delegate.dart';
+import 'package:news_app_2/core/data/models/filter_options.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
 
 class ArticleFilterViewModel with ChangeNotifier {
   late final ArticleServiceDelegate _articleServiceDelegate;

@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_2/core/app_colors.dart';
+import 'package:news_app_2/core/ui/styles/app_colors.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 

@@ -2,8 +2,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/core/color_utils.dart';
+import 'package:news_app_2/core/data/models/article_filter.dart';
+import 'package:news_app_2/core/ui/color_utils.dart';
 
 class ArticleDifficultyLevelGroup extends StatelessWidget {
   final List<String> allLevels;

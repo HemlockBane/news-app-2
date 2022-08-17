@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:news_app_2/core/data/article.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/data/article_preview_body.dart';
-import 'package:news_app_2/core/data/article_response.dart';
-import 'package:news_app_2/core/filter_options_response.dart';
+import 'package:news_app_2/core/data/models/article_response.dart';
+import 'package:news_app_2/core/data/models/articles_preview_response.dart';
+import 'package:news_app_2/core/data/models/filter_options_response.dart';
+
 import 'package:retrofit/retrofit.dart';
 
-import 'data/articles_preview_response.dart';
+
 
 part 'article_service.g.dart';
 

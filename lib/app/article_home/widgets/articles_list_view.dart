@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app_2/app/article_home/view_models/article_home_view_model.dart';
 import 'package:news_app_2/app/article_home/widgets/articles_list_item.dart';
-import 'package:news_app_2/core/article_service_delegate.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/models/article_filter.dart';
-import 'package:news_app_2/core/resource.dart';
-import 'package:news_app_2/core/widgets/state_indicators.dart';
+import 'package:news_app_2/core/data/delegates/article_service_delegate.dart';
+import 'package:news_app_2/core/data/models/article_filter.dart';
+import 'package:news_app_2/core/data/models/article_preview.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
+import 'package:news_app_2/core/ui/widgets/state_indicators.dart';
+
 
 class ArticlesListView extends StatefulWidget {
   final ArticleFilter? filter;

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:news_app_2/core/filter_options.dart';
+import 'package:news_app_2/core/data/models/filter_options.dart';
 
 
 part 'filter_options_response.g.dart';

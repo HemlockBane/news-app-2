@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_app_2/app/article_home/screens/articles_home_screen.dart';
 import 'package:news_app_2/app/article_home/view_models/article_home_view_model.dart';
 import 'package:news_app_2/core/app_routes.dart';
-import 'package:news_app_2/core/app_theme.dart';
-import 'package:news_app_2/core/service_module.dart';
+import 'package:news_app_2/core/di/service_module.dart';
+import 'package:news_app_2/core/ui/styles/app_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'app/article_filter/viewmodels/article_filter_view_model.dart';

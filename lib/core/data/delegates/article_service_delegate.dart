@@ -1,16 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:news_app_2/core/article_service.dart';
-import 'package:news_app_2/core/cache.dart';
-import 'package:news_app_2/core/data/article.dart';
-import 'package:news_app_2/core/data/article_preview.dart';
-import 'package:news_app_2/core/data/article_preview_body.dart';
-import 'package:news_app_2/core/filter_options.dart';
-import 'package:news_app_2/core/resource.dart';
+import 'package:news_app_2/core/data/data_sources/cache.dart';
+import 'package:news_app_2/core/data/models/article.dart';
+import 'package:news_app_2/core/data/models/articles_preview_response.dart';
+import 'package:news_app_2/core/data/models/filter_options.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
 
-import 'data/articles_preview_response.dart';
+
+import '../data_sources/article_service.dart';
 
 class ArticleServiceDelegate {
   late final ArticleService _service;

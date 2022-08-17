@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:news_app_2/core/article_service_delegate.dart';
-import 'package:news_app_2/core/data/article_preview_body.dart';
-import 'package:news_app_2/core/resource.dart';
+import 'package:news_app_2/core/data/delegates/article_service_delegate.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
 
 class ArticleHomeViewModel with ChangeNotifier {
   late final ArticleServiceDelegate _articleServiceDelegate;

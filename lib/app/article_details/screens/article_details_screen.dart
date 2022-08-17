@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/app/article_details/viewmodels/article_details_view_model.dart';
 import 'package:news_app_2/app/article_home/widgets/articles_list_item.dart';
-import 'package:news_app_2/core/app_colors.dart';
-import 'package:news_app_2/core/data/article.dart';
-import 'package:news_app_2/core/date_utils.dart';
-import 'package:news_app_2/core/resource.dart';
-import 'package:news_app_2/core/string_util.dart';
-import 'package:news_app_2/core/widgets/state_indicators.dart';
+import 'package:news_app_2/app/article_home/widgets/articles_list_view.dart';
+import 'package:news_app_2/core/data/models/article.dart';
+import 'package:news_app_2/core/data/models/resource.dart';
+import 'package:news_app_2/core/ui/styles/app_colors.dart';
+import 'package:news_app_2/core/utils/date_utils.dart';
+import 'package:news_app_2/core/utils/string_util.dart';
 import 'package:provider/provider.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
