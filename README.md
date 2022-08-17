@@ -1,17 +1,28 @@
-# news_app_2
+## Overview
 
-A new Flutter project.
+A news display app built with Flutter
+
+## Features
+Its features include:
+- Viewing news headlines
+- Viewing news details
+- Filtering news by difficulty, reading time, and category
+
+## Screenshots
+Home                                       | Details                        | Filter
+:----------------------------------------: | :-----------------------------: | --------------------------- 
+![News Home](readme/home.png) | ![News Details](readme/details.png) | ![News Filter](readme/filter.png)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+#### Get dependencies
+  
+```
+flutter pub get
+```
+#### Generate code
+  
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-"# news-app-2" 
